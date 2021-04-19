@@ -1,0 +1,38 @@
+name: Create Cluster
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2      
+      
+      - run: 'echo "$PRIVATE_KEY" > secrets/id_ed25519_lfd259'
+        shell: bash
+        working-directory: ./infra
+        env:
+          PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+
+      - name: Permissions
+        working-directory: ./infra
+        run: chmod 600 secrets/id_ed25519_lfd259
+
+      - run: 'echo "$PUBLIC_KEY" > secrets/id_ed25519_lfd259.pub'
+        shell: bash
+        working-directory: ./infra
+        env:
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+
+      - name: HashiCorp - Setup Terraform
+        uses: hashicorp/setup-terraform@v1.2.1
+        
+      - name: TF Init
+        working-directory: ./infra
+        run: terraform init
+        
+      - name: TF Create
+        working-directory: ./infra
+        run: terraform apply -var="hcloud_token=${{secrets.TOKEN_HETZNER}}" -auto-approve
