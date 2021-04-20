@@ -28,6 +28,8 @@ jobs:
           
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v1.2.1
+        with:
+          terraform_wrapper: false
         
       - name: TF Init
         working-directory: ./infra
@@ -38,14 +40,14 @@ jobs:
         run: terraform apply -var="hcloud_token=${{secrets.TOKEN_HETZNER}}" -auto-approve   
           
       - name: Set MasterIpv4 Address
-        working-directory: ./infra
-        run: |
-          echo "MASTER_IPV4=$(terraform output master_ip | grep ":")" >> $GITHUB_ENV
+        working-directory: ./infra        
+        id: terraform-output
+        run: echo "::set-output name=master_ip::$(terraform output master_ip)"
           
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
-          host: ${{ env.MASTER_IPV4 }}
+          host: ${{ steps.terraform-output.MASTER_IPV4 }}
           username: root
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
