@@ -39,4 +39,4 @@ jobs:
           
       - name: Extract MasterIpv4 Address
         working-directory: ./infra
-        run: terraform ouput master_ip
+        run: terraform output master_ip
