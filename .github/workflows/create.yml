@@ -53,3 +53,4 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           source: "*.tfstate"
           target: "infra"
+          debug: true
