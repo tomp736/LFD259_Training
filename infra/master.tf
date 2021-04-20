@@ -35,13 +35,18 @@ resource "hcloud_server" "master" {
   }
 
   provisioner "file" {
+    source      = "secrets/token_github"
+    destination = "/root/token_github"
+  }
+
+  provisioner "file" {
     source      = "scripts/class_materials.sh"
     destination = "/root/class_materials.sh"
   }
 
   provisioner "file" {
-    source      = "secrets/token_github"
-    destination = "/root/token_github"
+    source      = "scripts/teardown.sh"
+    destination = "/root/teardown.sh"
   }
 
   provisioner "remote-exec" {
