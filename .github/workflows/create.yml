@@ -40,7 +40,7 @@ jobs:
       - name: Set MasterIpv4 Address
         working-directory: ./infra
         run: |
-          echo ::set-env name=MASTER_IPV4::$(terraform output master_ip)
+          echo "MASTER_IPV4=$(terraform output master_ip)" >> $GITHUB_ENV
           
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
