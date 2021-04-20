@@ -47,10 +47,10 @@ jobs:
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
-          host: ${{ steps.terraform-output.master_ip }}
+          host: ${{ steps.terraform-output.outputs.master_ip }}
           username: root
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "*.tfstate"
+          source: "./infra/*.tfstate"
           target: "infra"
           debug: true
