@@ -35,4 +35,8 @@ jobs:
         
       - name: TF Create
         working-directory: ./infra
-        run: terraform apply -var="hcloud_token=${{secrets.TOKEN_HETZNER}}" -auto-approve
+        run: terraform apply -var="hcloud_token=${{secrets.TOKEN_HETZNER}}" -auto-approve   
+          
+      - name: Extract MasterIpv4 Address
+        working-directory: ./infra
+        run: terraform ouput master_ip
