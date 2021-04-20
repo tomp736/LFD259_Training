@@ -2,7 +2,9 @@ name: Create Cluster
 
 on:
   workflow_dispatch:
-
+  repository_dispatch:
+    types: create-cluster
+    
 jobs:
   build:
     runs-on: ubuntu-latest
