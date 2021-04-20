@@ -1,4 +1,4 @@
-name: Create Cluster
+name: Teardown Cluster
 
 on:
   workflow_dispatch:
