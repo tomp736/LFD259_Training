@@ -10,29 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2      
-      
-      - run: 'echo "$PRIVATE_KEY" > secrets/id_ed25519_lfd259'
-        shell: bash
+      - uses: actions/checkout@v2
+      - shell: bash
         working-directory: ./infra
         env:
           PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+          TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
+        run: |
+          echo "$PRIVATE_KEY" > secrets/id_ed25519_lfd259
+          echo "$PUBLIC_KEY" > secrets/id_ed25519_lfd259.pub
+          echo "$TOKEN_GITHUB" > secrets/token_github
 
       - name: Permissions
         working-directory: ./infra
         run: chmod 600 secrets/id_ed25519_lfd259
-
-      - run: 'echo "$PUBLIC_KEY" > secrets/id_ed25519_lfd259.pub'
-        shell: bash
-        working-directory: ./infra
-        env:
-          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
-      
-      - run: 'echo "$TOKEN_GITHUB" > secrets/token_github'
-        shell: bash
-        working-directory: ./infra
-        env:
-          PRIVATE_KEY: ${{secrets.TOKEN_GITHUB}}
           
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v1.2.1
