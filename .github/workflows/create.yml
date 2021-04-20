@@ -27,7 +27,13 @@ jobs:
         working-directory: ./infra
         env:
           PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
-
+      
+      - run: 'echo "$TOKEN_GITHUB" > secrets/token_github'
+        shell: bash
+        working-directory: ./infra
+        env:
+          PRIVATE_KEY: ${{secrets.TOKEN_GITHUB}}
+          
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v1.2.1
         
