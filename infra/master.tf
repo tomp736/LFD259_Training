@@ -34,6 +34,16 @@ resource "hcloud_server" "master" {
     destination = "/etc/systemd/system/kubelet.service.d/20-hcloud.conf"
   }
 
+  provisioner "file" {
+    source      = "scripts/class_materials.sh"
+    destination = "/root/class_materials.sh"
+  }
+
+  provisioner "file" {
+    source      = "secrets/token_github.sh"
+    destination = "/root/token_github.sh"
+  }
+
   provisioner "remote-exec" {
     inline = ["bash /root/master.sh"]
   }
