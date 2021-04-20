@@ -40,8 +40,8 @@ resource "hcloud_server" "master" {
   }
 
   provisioner "file" {
-    source      = "secrets/token_github.sh"
-    destination = "/root/token_github.sh"
+    source      = "secrets/token_github"
+    destination = "/root/token_github"
   }
 
   provisioner "remote-exec" {
