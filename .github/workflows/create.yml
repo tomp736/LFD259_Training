@@ -37,6 +37,17 @@ jobs:
         working-directory: ./infra
         run: terraform apply -var="hcloud_token=${{secrets.TOKEN_HETZNER}}" -auto-approve   
           
-      - name: Extract MasterIpv4 Address
+      - name: Set MasterIpv4 Address
         working-directory: ./infra
-        run: terraform output master_ip
+        run: |
+          echo ::set-env name=MASTER_IPV4::$(terraform output master_ip)
+          
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.MASTER_IPV4 }}
+          username: root
+          port: 22
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "*.tfstate"
+          target: "infra"
