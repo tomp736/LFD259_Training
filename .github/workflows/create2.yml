@@ -41,8 +41,7 @@ jobs:
                   "name" : "LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", 
                   "auto_init" : true, 
                   "private" : true 
-                }'
-             https://api.github.com/user/repos
+                }' https://api.github.com/user/repos
 
       - name: Checkout Private Repo
         id: gitcheckout
