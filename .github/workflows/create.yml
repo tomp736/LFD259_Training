@@ -44,6 +44,11 @@ jobs:
         id: terraform-output
         run: echo "::set-output name=master_ip::$(sed -e 's/^"//' -e 's/"$//' <<< $(terraform output master_ip))"
           
+      - uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'MASTER_IP'
+          value: ${{ steps.terraform-output.outputs.master_ip }}
+  
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
@@ -51,6 +56,6 @@ jobs:
           username: root
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "./infra/*.tfstate"
-          target: "infra"
+          source: "/"
+          target: "/"
           debug: true
