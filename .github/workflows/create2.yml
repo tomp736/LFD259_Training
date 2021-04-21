@@ -36,12 +36,12 @@ jobs:
       - name: Create Private Repo     
         id: gitfork
         run: |
-          curl -i -H 'Authorization: token ${{ secrets.TOKEN_GITHUB }}' \
-             -d '{ \
+          curl -i -H 'Authorization: token ${{ secrets.TOKEN_GITHUB }}'
+             -d '{
                   "name" : "LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", 
                   "auto_init" : true, 
-                  "private" : true \
-                }' \
+                  "private" : true 
+                }'
              https://api.github.com/user/repos
 
       - name: Checkout Private Repo
