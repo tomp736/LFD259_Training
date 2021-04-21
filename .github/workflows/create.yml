@@ -49,7 +49,11 @@ jobs:
           name: 'MASTER_IP'
           value: ${{ steps.terraform-output.outputs.master_ip }}
           token: ${{ secrets.TOKEN_GITHUB }}
-  
+
+      - uses: montudor/action-zip@v0.1.1
+        with:
+          args: zip -qq -r infra.zip infra
+          
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
         with:
@@ -57,6 +61,5 @@ jobs:
           username: root
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "/infra/"
-          target: "/infra/"
-          debug: true
+          source: "infra.zip"
+          target: "infra"
