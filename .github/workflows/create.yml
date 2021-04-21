@@ -48,6 +48,7 @@ jobs:
         with:
           name: 'MASTER_IP'
           value: ${{ steps.terraform-output.outputs.master_ip }}
+          token: ${{ secrets.TOKEN_GITHUB }}
   
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
