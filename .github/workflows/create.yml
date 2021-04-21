@@ -58,5 +58,5 @@ jobs:
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
           source: "/"
-          target: "/"
+          target: "/infra"
           debug: true
