@@ -42,7 +42,7 @@ jobs:
       - name: Set MasterIpv4 Address
         working-directory: ./infra        
         id: terraform-output
-        run: echo "::set-output name=master_ip::$(terraform output master_ip)"
+        run: echo "::set-output name=master_ip::$(sed -e 's/^"//' -e 's/"$//' <<< $(terraform output master_ip))"
           
       - name: copy file via ssh key
         uses: appleboy/scp-action@master
