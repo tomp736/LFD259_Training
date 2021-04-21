@@ -1,0 +1,56 @@
+name: Create Cluster2
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: create-cluster
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - shell: bash
+        working-directory: ./infra
+        env:
+          PRIVATE_KEY: ${{secrets.PRIVATE_KEY}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+          TOKEN_GITHUB: ${{secrets.TOKEN_GITHUB}}
+        run: |
+          echo "$PRIVATE_KEY" > secrets/id_ed25519_lfd259
+          echo "$PUBLIC_KEY" > secrets/id_ed25519_lfd259.pub
+          echo "$TOKEN_GITHUB" > secrets/token_github
+
+      - name: Permissions
+        working-directory: ./infra
+        run: chmod 600 secrets/id_ed25519_lfd259
+          
+      - name: TF Output
+        working-directory: ./infra        
+        id: tfoutput
+        run: |
+          echo "::set-output name=master_ip::$(sed -e 's/^"//' -e 's/"$//' <<< 1.1.1.1)"
+        
+      - name: Create Private Repo     
+        id: gitfork
+        run: curl -H "Authorization: token ${{ secrets.TOKEN_GITHUB }}" --data '{"name":"LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", "private": true}' https://api.github.com/user/repos                
+
+      - name: Checkout Private Repo
+        id: gitcheckout
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.actor }}/LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}"
+          token: ${{ secrets.TOKEN_GITHUB }}
+          path: LFD259_Training_${{ steps.tfoutput.outputs.master_ip }} 
+          
+      - name: Copy Infra Output to Private Repo
+        uses: actions/checkout@v2
+        run: cp -r ./infra LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}        
+        
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v7.1.2
+        with:
+          cwd: ./LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}
+          message: 'create cluster'
