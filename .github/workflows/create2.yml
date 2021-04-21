@@ -42,7 +42,7 @@ jobs:
                   "auto_init" : true, 
                   "private" : true \
                 }' \
-             https://api.github.com/user/repo
+             https://api.github.com/user/repos
 
       - name: Checkout Private Repo
         id: gitcheckout
