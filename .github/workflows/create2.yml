@@ -35,7 +35,10 @@ jobs:
         
       - name: Create Private Repo     
         id: gitfork
-        run: curl -H "Authorization: token ${{ secrets.TOKEN_GITHUB }}" --data '{"name":"LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", "private": true}' https://api.github.com/user/repos                
+        run: |
+          curl -s -X POST https://api.github.com/user/repo \
+             -d '{"name":"LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", "private": true}' \
+             -H 'Authorization: token ${{ secrets.TOKEN_GITHUB }}' 
 
       - name: Checkout Private Repo
         id: gitcheckout
@@ -46,7 +49,6 @@ jobs:
           path: LFD259_Training_${{ steps.tfoutput.outputs.master_ip }} 
           
       - name: Copy Infra Output to Private Repo
-        uses: actions/checkout@v2
         run: cp -r ./infra LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}        
         
       - name: Add & Commit
