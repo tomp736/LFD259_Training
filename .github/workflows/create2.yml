@@ -32,17 +32,6 @@ jobs:
         id: tfoutput
         run: |
           echo "::set-output name=master_ip::$(sed -e 's/^"//' -e 's/"$//' <<< 1.1.1.1)"
-        
-      - name: Create Private Repo     
-        id: gitfork
-        run: |
-          curl -i -H 'Authorization: token ${{ secrets.TOKEN_GITHUB }}' \
-             -d '{
-                  "name" : "LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}", 
-                  "auto_init" : true, 
-                  "private" : true 
-                }' \
-                https://api.github.com/user/repos
                 
       - name: Checkout Private Repo
         id: gitcheckout
