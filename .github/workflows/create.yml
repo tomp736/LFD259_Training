@@ -57,6 +57,6 @@ jobs:
           username: root
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "/"
-          target: "/infra"
+          source: "/infra/"
+          target: "/infra/"
           debug: true
