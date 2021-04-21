@@ -1,0 +1,21 @@
+name: Test Output
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: Set MasterIpv4 Address
+        working-directory: ./infra        
+        id: terraform-output
+        run: echo "::set-output name=master_ip::test123"
+          
+      - name: Set MasterIpv4 Address
+        working-directory: ./infra        
+        id: terraform-output
+        run: echo ${{ steps.terraform-output.outputs.master_ip }}
