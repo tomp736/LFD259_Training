@@ -37,7 +37,7 @@ jobs:
         id: gitcheckout
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.actor }}/LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}"
+          repository: ${{ github.actor }}/LFD259_Training_${{ steps.tfoutput.outputs.master_ip }}
           token: ${{ secrets.TOKEN_GITHUB }}
           path: LFD259_Training_${{ steps.tfoutput.outputs.master_ip }} 
           
