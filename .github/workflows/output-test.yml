@@ -18,3 +18,8 @@ jobs:
       - name: Echo output value
         working-directory: ./infra   
         run: echo ${{ steps.terraform-output.outputs.master_ip }}
+
+      - uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'MASTER_IP'
+          value: ${{ steps.terraform-output.outputs.master_ip }}
